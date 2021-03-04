@@ -9,13 +9,13 @@
 #include <xc.h>
 #include "config.h"
 #include "delay.h"
-#include "display7seg.h"
+#include "disp7segBotoes.h"
 #include "botoes.h"
 
 
 void main(void) 
 {
-    char cont = 0;
+    signed char cont = 0;
     char estado = 0;
     disp7seg.init();
     botoes_init();
@@ -26,15 +26,25 @@ void main(void)
             case 0:
                     if( b1() == 1 )
                         estado = 1;
+                    if( b0() == 1 )
+                        estado = 3;
                     break;
             case 1:
                     if( b1() == 0 )
                         estado = 2;
                     break;
             case 2:
-                    ++cont;
-                    estado = 0;
+                        ++cont;
+                        estado = 0;
                     break;
+            case 3:
+                    if( b0() == 0)
+                        estado = 4;
+                    break;
+            case 4: 
+                        --cont;
+                        estado = 0;
+                    break;    
         }
         disp7seg.print(cont);
     
